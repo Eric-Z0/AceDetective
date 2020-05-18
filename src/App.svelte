@@ -1,6 +1,7 @@
 <script>
 	import NarBar from './NarBar.svelte';
 	import Gallery from './Gallery.svelte';
+	import Story from './Story.svelte';
 	export let name;
 </script>
 
@@ -12,6 +13,7 @@
 	</main>
 </div>
 <Gallery></Gallery>
+<Story></Story>
 
 <style>
 	.slide {
