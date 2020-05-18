@@ -1,32 +1,40 @@
+<script>
+    import Button from '@smui/button';
+</script>
 <style>
     nav {
         height: 10vh;
         background: #000000;
         font-family: sans-serif;
-    }
-
-    .nav-links {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
         display: flex;
-        list-style: none;
-        width: 50%;
-        height: 100%;
-        justify-content: space-around;
         align-items: center;
-        margin-left: auto;
+        justify-content: space-between;
     }
 
-    .nav-links li a {
+    .logo {
         color: white;
         text-decoration: none;
         font-size: 16px;
+        padding: 0 5%;
+    }
+
+    * :global(.signup-btn) {
+        margin: 0;
+    }
+
+    .signup-btn-container {
+        padding: 0 5%;
     }
 
 </style>
 
 <nav>
-    <ul class="nav-links">
-        <li><a href="#" class="logo">Logo</a></li>
-        <li><a href="#">libray</a></li>
-        <li><a href="#">Log In</a></li>
-    </ul>
+    <a href="#" class="logo">Ace Detective</a>
+    <div class="signup-btn-container">
+        <Button on:click={() => alert('Clicked!')} variant="unelevated" class="signup-btn">Sign Up</Button>
+    </div>
 </nav>
