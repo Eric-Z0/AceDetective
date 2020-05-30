@@ -1,8 +1,8 @@
 <style>
     .story-card {
         height: 40vh;
-        background: #000000;
-        color: #ffffff;
+        /* background: #000000;
+        color: #ffffff; */
         padding: 70px 45px;
         display: flex;
         align-items: center;
