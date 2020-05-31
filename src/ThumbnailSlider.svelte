@@ -1,4 +1,21 @@
 <script>
+  import { onMount } from "svelte";
+
+  let slide;
+  let items = 4;
+  let shiftValue;
+
+  // Use sevlete onMount function to initilize the slider layout
+  onMount(() => {
+    var allBox = slide.children;
+    var slideWidth = slide.offsetWidth;
+    shiftValue = slideWidth / items;
+
+    for (let i = 0; i < allBox.length; i++) {
+      allBox[i].style.width = shiftValue + "px";
+    }
+  });
+
   var index = 0;
   var amount = 0; //amount of images
   var currTransl = [];
@@ -12,7 +29,7 @@
     amount = document.getElementById("carousel").children.length;
     document.getElementsByTagName("span")[0].innerHTML = amount;
     for (var i = 0; i < amount; i++) {
-      currTransl[i] = -200;
+      currTransl[i] = -1 * shiftValue;
       document
         .getElementsByTagName("img")
         [i].addEventListener("transitionend", transitionCompleted, true);
@@ -41,16 +58,17 @@
         outerIndex === 0 ? 5 : outerIndex;
       for (var i = 0; i < amount; i++) {
         var img = document.getElementsByClassName("img")[i];
-        img.style.opacity = "1";
-        img.style.transform = "translate(" + (currTransl[i] + 200) + "px)";
-        currTransl[i] = currTransl[i] + 200;
+        // img.style.opacity = "1";
+        img.style.transform =
+          "translate(" + (currTransl[i] + shiftValue) + "px)";
+        currTransl[i] = currTransl[i] + shiftValue;
       }
 
       var outerImg = document.getElementsByClassName("img")[outerIndex];
       outerImg.style.transform =
-        "translate(" + (currTransl[outerIndex] - 200 * amount) + "px)";
-      outerImg.style.opacity = "0.5";
-      currTransl[outerIndex] = currTransl[outerIndex] - 200 * amount;
+        "translate(" + (currTransl[outerIndex] - shiftValue * amount) + "px)";
+      // outerImg.style.opacity = "0.5";
+      currTransl[outerIndex] = currTransl[outerIndex] - shiftValue * amount;
     }
   }
 
@@ -62,15 +80,16 @@
       document.getElementById("index").innerHTML = outerIndex + 1;
       for (var i = 0; i < amount; i++) {
         var img = document.getElementsByClassName("img")[i];
-        img.style.opacity = "1";
-        img.style.transform = "translate(" + (currTransl[i] - 200) + "px)";
-        currTransl[i] = currTransl[i] - 200;
+        // img.style.opacity = "1";
+        img.style.transform =
+          "translate(" + (currTransl[i] - shiftValue) + "px)";
+        currTransl[i] = currTransl[i] - shiftValue;
       }
       var outerImg = document.getElementsByClassName("img")[outerIndex];
       outerImg.style.transform =
-        "translate(" + (currTransl[outerIndex] + 200 * amount) + "px)";
-      outerImg.style.opacity = "0.5";
-      currTransl[outerIndex] = currTransl[outerIndex] + 200 * amount;
+        "translate(" + (currTransl[outerIndex] + shiftValue * amount) + "px)";
+      // outerImg.style.opacity = "0.5";
+      currTransl[outerIndex] = currTransl[outerIndex] + shiftValue * amount;
     }
   }
 </script>
@@ -78,15 +97,17 @@
 <style>
   .gallery {
     position: relative;
-    height: 30vh;
+    height: 22vh;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
   #carousel {
-    width: 1000px;
-    height: 200px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
   }
 
   .animate {
@@ -103,40 +124,81 @@
   img {
     position: relative;
     float: left;
-    transform: translate(-200px);
-    left: 200px;
+    left: 448px; /* A hard coded value, may change it later */
+    height: 100%;
+    object-fit: cover;
+    transform: translate(
+      -448px
+    ); /* A hard coded value, may change it later */
   }
 
   #controls {
     position: absolute;
     z-index: 1;
-    width: 200px;
+    width: 448px;
+    color: red;
+  }
+
+  button {
+    background-color: transparent;
+    border: none;
+    margin-bottom: 0;
+    height: 200px;
+    color: white;
+    font-size: 2em;
+    cursor: pointer;
+    opacity: 0.6;
+  }
+
+  button:hover {
+    opacity: 1;
+    transition: opacity 0.5s;
+  }
+
+  button:active {
+    background-color: transparent;
+    /* font-size: 2.5em; */
   }
 
   #left {
     float: left;
-    width: 33.3%;
+    width: 15%;
   }
 
   #index {
     display: inline-block;
-    width: 33.3%;
+    width: 70%;
     text-align: center;
   }
 
   #right {
     float: right;
-    width: 33.3%;
+    width: 15%;
   }
 </style>
 
 <div class="gallery">
-  <div id="carousel" class="animate">
-    <img class="img animate" src="http://lorempixel.com/200/200/cats/1/" />
-    <img class="img animate" src="http://lorempixel.com/200/200/cats/2/" />
-    <img class="img animate" src="http://lorempixel.com/200/200/cats/3/" />
-    <img class="img animate" src="http://lorempixel.com/200/200/cats/4/" />
-    <img class="img animate" src="http://lorempixel.com/200/200/cats/5/" />
+  <div id="carousel" class="animate" bind:this={slide}>
+    <img
+      class="img animate"
+      src="images/sherlock_holmes.jpg"
+      alt="Sherlock Holmes" />
+    <img
+      class="img animate"
+      src="images/kogoro_akechi.jpg"
+      alt="Kogoro Akechi" />
+    <img
+      class="img animate"
+      src="images/kosuke_kindaichi.jpg"
+      alt="Kosuke Kindaichi" />
+    <img
+      class="img animate"
+      src="images/hercule_poirot.jpg"
+      alt="Hercule Poirot" />
+    <img
+      class="img animate"
+      src="images/jules_maigret.jpg"
+      alt="Jules Maigret" />
   </div>
   <div id="controls">
     <button id="left" on:click={left}>&lt</button>

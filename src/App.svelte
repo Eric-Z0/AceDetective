@@ -15,7 +15,7 @@
   }
 
   .slide {
-    height: 60vh;
+    height: 68vh;
     width: 100%;
     display: flex;
     align-content: center;
